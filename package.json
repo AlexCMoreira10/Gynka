@@ -1,0 +1,9 @@
+{
+  "name": "nodejs-express-deploy-heroky-gynka",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "scripts": {
+    "start" : "node index"
+  }
+}
