@@ -1,0 +1,146 @@
+<header>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        color: #333;
+    }
+
+    .icon-container {
+        width: 50px;
+        height: 50px;
+        background-color: #333;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #666;
+        font-weight: normal;
+        margin: 10px 0 20px;
+    }
+
+    form {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* <- Adicionado */
+    }
+
+    label {
+    display: block;
+    font-size: 14px;
+    color: #444;
+    width: 100%;
+    text-align: left; /* <- Mantém texto alinhado à esquerda */
+    margin: 10px 0 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    }
+
+
+    .termos-container {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    margin-top: 15px;
+    width: 100%;
+    }
+
+    .termos-container label {
+    flex: 1;
+    }
+
+    .termos-container input[type="checkbox"] {
+        margin-right: 8px;
+    }
+
+    .termos-container i {
+        margin-right: 5px;
+    }
+
+    .termos-link {
+        display: block;
+        font-size: 12px;
+        color: #777;
+        margin-top: 4px;
+        text-decoration: none;
+    }
+
+    button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    button i {
+        margin-left: 5px;
+    }
+    </style>
+</header>
+<form action="/CadastrarEspecialista" method="POST">
+  <label for="nome">Nome:</label>
+  <input type="text" id="nome" name="nome" placeholder="Nome..." required>
+
+  <label for="sobrenome">Sobrenome:</label>
+  <input type="text" id="sobrenome" name="sobrenome" placeholder="Sobrenome..." required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" placeholder="Email..." required>
+
+  <label for="telefone">Telefone:</label>
+  <input type="tel" id="telefone" name="telefone" placeholder="Apenas números..." required pattern="[0-9]{10,11}">
+
+  <label for="cod_conselho_classe">Código do Conselho de Classe:</label>
+  <input type="text" id="cod_conselho_classe" name="cod_conselho_classe" placeholder="Ex: CRM123456..." required>
+
+  <label for="especialidade">Especialidade:</label>
+  <input type="text" id="especialidade" name="especialidade" placeholder="Ex: Ortopedia, Psicologia..." required>
+
+  <label for="senha">Senha:</label>
+  <input type="password" id="senha" name="senha" placeholder="Mínimo 4 caracteres..." required minlength="4">
+
+  <div class="termos-container">
+    <input type="checkbox" id="termos" required>
+    <label for="termos">Li e concordo com os termos de uso.</label>
+  </div>
+
+  <a href="#" class="termos-link">Ler os termos de uso...</a>
+
+  <button type="submit">Cadastrar</button>
+</form>

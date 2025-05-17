@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="cadastro.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .icon-container {
+      width: 50px;
+      height: 50px;
+      background-color: #333;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #666;
+      font-weight: normal;
+      margin: 10px 0 20px;
+    }
+
+    form {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* <- Adicionado */
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  color: #444;
+  width: 100%;
+  text-align: left; /* <- Mantém texto alinhado à esquerda */
+  margin: 10px 0 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+
+    .termos-container {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-top: 15px;
+  width: 100%;
+    }
+
+    .termos-container label {
+  flex: 1;
+}
+
+    .termos-container input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .termos-container i {
+      margin-right: 5px;
+    }
+
+    .termos-link {
+      display: block;
+      font-size: 12px;
+      color: #777;
+      margin-top: 4px;
+      text-decoration: none;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button i {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="icon-container">
+    <i class="fa fa-star"></i>
+  </div>
+  <h2>Cadastro...</h2>
+
+<form action="/Cadastrar" method="POST">
+  <label for="nome">Nome:</label>
+  <input type="text" id="nome" name="nome" placeholder="Primeiro..." required>
+
+  <label for="sobrenome">Sobrenome:</label>
+  <input type="text" id="sobrenome" name="sobrenome" placeholder="Sobrenome..." required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" placeholder="Email..." required>
+
+  <label for="telefone">Telefone:</label>
+  <input type="tel" id="telefone" name="telefone" placeholder="(DDD) 90000-0000" required>
+
+  <label for="estado">Estado:</label>
+  <select id="estado" name="estado" required>
+    <option value="">Selecione um estado</option>
+    <option value="AC">AC</option>
+    <option value="AL">AL</option>
+    <option value="AP">AP</option>
+    <option value="AM">AM</option>
+    <option value="BA">BA</option>
+    <option value="CE">CE</option>
+    <option value="DF">DF</option>
+    <option value="ES">ES</option>
+    <option value="GO">GO</option>
+    <option value="MA">MA</option>
+    <option value="MT">MT</option>
+    <option value="MS">MS</option>
+    <option value="MG">MG</option>
+    <option value="PA">PA</option>
+    <option value="PB">PB</option>
+    <option value="PR">PR</option>
+    <option value="PE">PE</option>
+    <option value="PI">PI</option>
+    <option value="RJ">RJ</option>
+    <option value="RN">RN</option>
+    <option value="RS">RS</option>
+    <option value="RO">RO</option>
+    <option value="RR">RR</option>
+    <option value="SC">SC</option>
+    <option value="SP">SP</option>
+    <option value="SE">SE</option>
+    <option value="TO">TO</option>
+  </select>
+
+  <label for="cidade">Cidade:</label>
+  <input type="text" id="cidade" name="cidade" placeholder="Cidade..." required>
+
+  <label for="cep">CEP:</label>
+  <input type="text" id="cep" name="cep" placeholder="00000-000" required>
+
+  <label for="lagradouro">Logradouro:</label>
+  <input type="text" id="lagradouro" name="lagradouro" placeholder="Rua, Avenida..." >
+
+  <label for="n_casa">Número da casa:</label>
+  <input type="number" id="n_casa" name="n_casa" placeholder="123" >
+
+  <label for="complemento">Complemento:</label>
+  <input type="text" id="complemento" name="complemento" placeholder="Apartamento, bloco..." >
+
+  <label for="senha">Senha:</label>
+  <input type="password" id="senha" name="senha" placeholder="Senha..." required>
+
+  <div class="termos-container">
+    <input type="checkbox" id="termos" required>
+    <label for="termos">Li e concordo com os termos de uso.</label>
+  </div>
+
+  <a href="#" class="termos-link">Ler os termos de uso</a>
+
+  <button type="submit">
+    <i class="fa fa-star"></i> Cadastrar
+  </button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Gynka</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-days {
+      display: flex;
+      justify-content: space-around;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .nav-days span {
+      font-size: 0.95rem;
+      color: #999;
+      cursor: pointer;
+    }
+
+    .nav-days .active {
+      font-weight: bold;
+      color: #000;
+      border-bottom: 2px solid #000;
+    }
+
+    .hero {
+      text-align: center;
+      background-color: #fff;
+      padding: 30px 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .card-title {
+      font-weight: 600;
+    }
+
+    .btn-custom {
+      border-radius: 20px;
+      padding: 10px 16px;
+      font-weight: 500;
+    }
+
+    #evolucaoChart {
+      margin-top: 20px;
+    }
+
+    .accordion-button {
+      font-weight: 500;
+    }
+
+    @media (min-width: 768px) {
+      .nav-days {
+        justify-content: center;
+        gap: 20px;
+      }
+    }
+
+    .navbar.fixed-bottom a {
+  text-decoration: none;
+  font-size: 0.85rem;
+  }
+  </style>
+</head>
+<body>
+  
+<div class="container mt-3">
+
+  <!-- Perfil do Usuário -->
+  <div class="d-flex align-items-center justify-content-between mb-3 p-3 bg-white rounded shadow-sm">
+    <div class="d-flex align-items-center">
+      <img src="img/gynka.jpeg" alt="Foto do usuário" class="rounded-circle me-3" width="48" height="48">
+      <div>
+        <h6 class="mb-0">Olá, Jorge</h6>
+        <small class="text-muted">Aluno ativo desde 2024</small>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-gear"></i> Configurações
+      </button>
+    </div>
+  </div>
+
+    <!-- Navegação de Dias -->
+    <div class="nav-days mb-3">
+      <span>Segunda</span>
+      <span class="active">Terça</span>
+      <span>Quarta</span>
+      <span>Quinta</span>
+      <span>Sexta</span>
+    </div>
+
+    <!-- Card de Treino -->
+    <div class="card p-3">
+      <h5 class="card-title">Treino!</h5>
+      <p>Treino diário...</p>
+      <div class="card p-2 mt-2">
+        <p><strong>1. Rosca Direta com Barra</strong></p>
+        <p class="mb-1">4 séries de 12 repetições</p>
+        <p class="text-muted small">Mantenha os cotovelos próximos ao corpo e controle o movimento.</p>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-secondary btn-sm rounded-circle"><</button>
+          <button class="btn btn-outline-secondary btn-sm rounded-circle">></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card de Dieta -->
+    <div class="card p-3">
+      <h5 class="card-title">Dieta do Dia</h5>
+      <p>Plano alimentar personalizado para <strong>Terça-feira</strong>.</p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Café da Manhã:</strong> Omelete com espinafre, 1 fatia de pão integral, suco de laranja natural
+        </li>
+        <li class="list-group-item">
+          <strong>Lanche da Manhã:</strong> 1 banana com pasta de amendoim
+        </li>
+        <li class="list-group-item">
+          <strong>Almoço:</strong> Frango grelhado, arroz integral, brócolis no vapor
+        </li>
+        <li class="list-group-item">
+          <strong>Lanche da Tarde:</strong> Iogurte natural com granola
+        </li>
+        <li class="list-group-item">
+          <strong>Jantar:</strong> Sopa de legumes e peito de frango desfiado
+        </li>
+      </ul>
+    </div>
+
+    <!-- Gráfico -->
+    <div class="card p-3">
+      <h5 class="card-title">Frequência</h5>
+      <p><strong>Dia 21</strong> <span class="text-success">+20% esse mês</span></p>
+      <h6 class="mt-3">Evolução</h6>
+      <p><strong>3,05</strong> <span class="text-success">+33%</span></p>
+      <canvas id="evolucaoChart" height="120"></canvas>
+    </div>
+
+    <!-- Especialistas -->
+    <div class="accordion mt-4" id="accordionProfissionais">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingDisp">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDisp">
+            Disponibilidade...
+          </button>
+        </h2>
+        <div id="collapseDisp" class="accordion-collapse collapse show" data-bs-parent="#accordionProfissionais">
+          <div class="accordion-body">
+            A disponibilidade dos profissionais varia conforme a agenda.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nutri">
+            Mariana Ferreira - Nutricionista
+          </button>
+        </h2>
+        <div id="nutri" class="accordion-collapse collapse">
+          <div class="accordion-body">Disponível às terças e quintas pela manhã.</div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fisio">
+            Eduardo Silva - Personal Trainer
+          </button>
+        </h2>
+        <div id="fisio" class="accordion-collapse collapse">
+          <div class="accordion-body">Agenda cheia essa semana.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão de Agendamento -->
+    <div class="text-center mt-4 mb-4">
+      <button class="btn btn-dark btn-custom">
+        <i class="bi bi-calendar-event"></i> Solicite horário
+      </button>
+    </div>
+  </div>
+
+  <!-- Barra de navegação inferior (visível em telas pequenas) -->
+<nav class="navbar fixed-bottom d-md-none bg-white border-top shadow-sm">
+  <div class="container-fluid d-flex justify-content-around">
+    <a class="text-center text-dark" data-bs-toggle="modal" data-bs-target="#modalHome">
+      <i class="bi bi-house-door fs-5"></i><br><small>Início</small>
+    </a>
+    <a class="text-center text-dark" data-bs-toggle="modal" data-bs-target="#modalTreino">
+      <i class="bi bi-barbell fs-5"></i><br><small>Treino</small>
+    </a>
+    <a class="text-center text-dark" data-bs-toggle="modal" data-bs-target="#modalDieta">
+      <i class="bi bi-egg-fried fs-5"></i><br><small>Dieta</small>
+    </a>
+    <a class="text-center text-dark" data-bs-toggle="modal" data-bs-target="#modalPerfil">
+      <i class="bi bi-person fs-5"></i><br><small>Perfil</small>
+    </a>
+  </div>
+</nav>
+
+<!-- Modais da barra inferior -->
+<div class="modal fade" id="modalHome" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Página Inicial</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Bem-vindo(a) de volta! Aqui você verá suas informações gerais e resumos diários.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalTreino" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalhes do Treino</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Acompanhe seus treinos, séries e histórico de desempenho aqui.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDieta" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Plano Alimentar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Consulte sua dieta diária e veja recomendações nutricionais.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalPerfil" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Seu Perfil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Visualize suas informações pessoais e edite configurações de conta.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script>
+    const ctx = document.getElementById('evolucaoChart').getContext('2d');
+    const evolucaoChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+        datasets: [{
+          label: 'Peso (kg)',
+          data: [72, 71.5, 70.8, 70.2, 69.7, 69.0],
+          borderColor: '#0d6efd',
+          backgroundColor: 'rgba(13, 110, 253, 0.2)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
