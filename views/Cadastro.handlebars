@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="cadastro.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -176,7 +169,7 @@ input[type="password"] {
   <input type="text" id="cidade" name="cidade" placeholder="Cidade..." required>
 
   <label for="cep">CEP:</label>
-  <input type="text" id="cep" name="cep" placeholder="00000-000" required>
+  <input type="text" id="cep" name="cep" placeholder="00000-000" minlength="8" maxlength="8" required>
 
   <label for="lagradouro">Logradouro:</label>
   <input type="text" id="lagradouro" name="lagradouro" placeholder="Rua, Avenida..." >
@@ -188,7 +181,7 @@ input[type="password"] {
   <input type="text" id="complemento" name="complemento" placeholder="Apartamento, bloco..." >
 
   <label for="senha">Senha:</label>
-  <input type="password" id="senha" name="senha" placeholder="Senha..." required>
+  <input type="password" id="senha" name="senha" placeholder="Senha..." minlength="8" maxlength="255" required>
 
   <div class="termos-container">
     <input type="checkbox" id="termos" required>
