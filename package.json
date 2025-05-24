@@ -2,6 +2,7 @@
   "name": "nodejs-express-deploy-heroky-gynka",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.2",
     "express-session": "^1.18.1",
@@ -10,6 +11,6 @@
     "sequelize": "^6.37.7"
   },
   "scripts": {
-    "start": "node index"
+    "start": "node index.js"
   }
 }
