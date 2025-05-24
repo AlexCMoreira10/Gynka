@@ -65,6 +65,6 @@ const Usuario = db.sequelize.define('Usuario', {
     timestamps: false
 });
 
-Usuario.sync({force:true})
+//Usuario.sync({force:true})
 
 export default Usuario;

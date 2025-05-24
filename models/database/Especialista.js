@@ -44,5 +44,5 @@ const Especialista = db.sequelize.define('Especialista', {
         timestamps: false
     });
 
-Especialista.sync({force: true})
+//Especialista.sync({force: true})
 export default Especialista

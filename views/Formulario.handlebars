@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
   <title>Formulário de Avaliação Física - Projeto Gynka</title>
   <style>
     body {
@@ -74,7 +71,7 @@
 
   <!-- Avaliação Física -->
   <label for="altura">Altura (cm):</label>
-  <input type="number" id="altura" name="altura" required>
+  <input type="number" id="altura" name="altura" min="50" max="250" required>
 
   <label for="peso">Peso (kg):</label>
   <input type="number" id="peso" name="peso" required>
@@ -100,11 +97,56 @@
   </select>
 
   <!-- Medidas Corporais -->
-  <label for="medidas-superior">Medidas superiores (ex: peitoral, bíceps, ombro):</label>
-  <textarea name="medidas-superior" id="medidas-superior" rows="3"></textarea>
+ <h3 style="margin-top:30px;">Medidas Corporais Detalhadas</h3>
 
-  <label for="medidas-inferior">Medidas inferiores (ex: quadril, coxa, panturrilha):</label>
-  <textarea name="medidas-inferior" id="medidas-inferior" rows="3"></textarea>
+  <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+    <!-- Lado Direito -->
+    <div style="flex: 1; min-width: 300px;">
+      <h4>Lado Direito</h4>
+
+      <label for="biceps_direito">Bíceps Direito (cm):</label>
+      <input type="number" name="biceps_direito" step="0.1">
+
+      <label for="triceps_direito">Tríceps Direito (cm):</label>
+      <input type="number" name="triceps_direito" step="0.1">
+
+      <label for="deltoid_direito">Deltoide Direito (cm):</label>
+      <input type="number" name="deltoid_direito" step="0.1">
+
+      <label for="coxa_direita">Coxa Direita (cm):</label>
+      <input type="number" name="coxa_direita" step="0.1">
+
+      <label for="panturrilha_direita">Panturrilha Direita (cm):</label>
+      <input type="number" name="panturrilha_direita" step="0.1">
+    </div>
+
+    <!-- Lado Esquerdo -->
+    <div style="flex: 1; min-width: 300px;">
+      <h4>Lado Esquerdo</h4>
+
+      <label for="biceps_esquerdo">Bíceps Esquerdo (cm):</label>
+      <input type="number" name="biceps_esquerdo" step="0.1">
+
+      <label for="triceps_esquerdo">Tríceps Esquerdo (cm):</label>
+      <input type="number" name="triceps_esquerdo" step="0.1">
+
+      <label for="deltoid_esquerdo">Deltoide Esquerdo (cm):</label>
+      <input type="number" name="deltoid_esquerdo" step="0.1">
+
+      <label for="coxa_esquerda">Coxa Esquerda (cm):</label>
+      <input type="number" name="coxa_esquerda" step="0.1">
+
+      <label for="panturrilha_esquerda">Panturrilha Esquerda (cm):</label>
+      <input type="number" name="panturrilha_esquerda" step="0.1">
+    </div>
+  </div>
+
+  <!-- Parte central do corpo -->
+  <label for="peitoral">Peitoral (cm):</label>
+  <input type="number" name="peitoral" step="0.1">
+
+  <label for="cintura">Cintura (cm):</label>
+  <input type="number" name="cintura" step="0.1">
 
   <!-- Saúde e Estilo de Vida -->
   <label>Você possui alguma limitação física ou lesão?</label>
