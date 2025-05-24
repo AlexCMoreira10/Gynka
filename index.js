@@ -3,6 +3,7 @@ import path from 'path';    //DEFINI OS CAMINHOS DAS PASTA DE FORMA 'DINAMICA'
 import bodyParser from 'body-parser';
 import { engine } from 'express-handlebars'; 
 import Handlebars from 'handlebars';
+
 //AQUI ESTOU CONFIGURANDO A SECAO DE USUARIO
 import session from 'express-session';
 import bcrypt from 'bcrypt';
