@@ -5,6 +5,7 @@ import { engine } from 'express-handlebars';
 import Handlebars from 'handlebars';
 //AQUI ESTOU CONFIGURANDO A SECAO DE USUARIO
 import session from 'express-session';
+import bcrypt from 'bcrypt';
 
 //import axios from 'axios';      //COMUNICAÇÃO COM API
 //import { CookieJar } from 'tough-cookie'; //SALVAR EM COOKIES PARA MANTER LOGADO APLICAÇÃO
@@ -14,6 +15,8 @@ import session from 'express-session';
 import Usuario from './models/database/Usuario.js';
 import Habitos from  './models/database/Habitos.js';
 import MedidaCorpo from './models/database/Medidas_Corpo.js';
+import Especialista from './models/database/Especialista.js';
+
 
 const PORTA = process.env.PORT || 8081; //Apenas uma configuração auxiliar a subir as aplicações, aqui o site sobe na porta e caso a informação não vier automaticamente para outra porta
 const app = express();
@@ -25,15 +28,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //Handlebars configuracao
-    app.engine('handlebars', engine({ defaultLayout: 'main' }));
-    app.set('view engine', 'handlebars', 'partials');
-    
     app.engine('handlebars', engine({
         defaultLayout: 'main',
-        helpers: {
-            eq: (a, b) => a === b
-        }
+        helpers: { eq: (a, b) => a === b }
     }));
+    app.set('view engine', 'handlebars');
+
 
 //CONFIGURACAO DE SESSAO
     app.use(session({
@@ -195,7 +195,7 @@ app.use(bodyParser.json());
         }
     });
 
-app.get('/CadastrarEspecialista', async (req, res) => {
+app.get('/CadastroEspecialista', async (req, res) => {
     res.render('Cadastro_Especialista');
 });
 app.post('/CadastrarEspecialista', async (req, res) => {
