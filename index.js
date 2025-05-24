@@ -195,9 +195,62 @@ app.use(bodyParser.json());
         }
     });
 
-app.get('/Especialista', function(req,res){
-    res.render('Cadastro_Especialista')
-})
+app.get('/CadastrarEspecialista', async (req, res) => {
+    res.render('Cadastro_Especialista');
+});
+app.post('/CadastrarEspecialista', async (req, res) => {
+    const {
+        nome,
+        sobrenome,
+        email,
+        senha,
+        telefone,
+        cod_conselho_classe,
+        especialidade,
+        termos
+    } = req.body;
+
+    try {
+        // Validações
+        if (!termos) {
+            return res.status(400).send("Você deve aceitar os termos de uso.");
+        }
+
+        if (!senha || senha.length < 8) {
+            return res.status(400).send("A senha deve ter no mínimo 8 caracteres.");
+        }
+
+        // Verifica se email já está cadastrado
+        const especialistaExistente = await Especialista.findOne({ where: { Email: email } });
+        if (especialistaExistente) {
+            return res.status(409).send("Este email já está cadastrado.");
+        }
+
+        // Criptografa a senha
+        const senhaHash = await bcrypt.hash(senha, 10);
+
+        // Criação do especialista
+        const novoEspecialista = await Especialista.create({
+            Nome: nome,
+            Sobrenome: sobrenome,
+            Email: email,
+            senha: senhaHash,
+            Telefone: telefone,
+            Cod_conselho_classe: cod_conselho_classe,
+            Especialidade: especialidade
+        });
+
+        res.status(201).json({
+            message: "Especialista cadastrado com sucesso!",
+            especialista: novoEspecialista
+        });
+
+    } catch (error) {
+        console.error("Erro ao cadastrar especialista:", error);
+        res.status(500).send("Erro no servidor.");
+    }
+});
+
 
 
 app.post('/auto_avaliacao', function(req, res) {

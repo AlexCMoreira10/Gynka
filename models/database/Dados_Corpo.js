@@ -54,6 +54,6 @@ const Dado_Corporal = db.sequelize.define('Dado_Corporal', {
     }
   }, {tableName: 'Dado_Corporal'});
 
-Dado_Corporal.sync({force:true})
+//Dado_Corporal.sync({force:true})
 
 export default Dado_Corporal;

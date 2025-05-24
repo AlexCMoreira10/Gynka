@@ -44,6 +44,6 @@ ID_DADO_MEDICO: {
     }
   }, {tableName: 'Saude'});
 
-Dados_Saude.sync({force:true})
+//Dados_Saude.sync({force:true})
 
 export default Dados_Saude;
