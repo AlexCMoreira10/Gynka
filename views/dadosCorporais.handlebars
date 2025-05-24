@@ -1,0 +1,40 @@
+<h2>Histórico de Evolução Corporal</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Braço Contraído D</th>
+      <th>Braço Contraído E</th>
+      <th>Braço Relaxado D</th>
+      <th>Braço Relaxado E</th>
+      <th>Coxa D</th>
+      <th>Coxa E</th>
+      <th>Panturrilha D</th>
+      <th>Panturrilha E</th>
+      <th>Peitoral</th>
+      <th>Abdômen</th>
+      <th>Glúteo</th>
+      <th>Quadril</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each dados}}
+      <tr>
+        <td>{{this.createdAt}}</td>
+        <td>{{this.Bra_Con_Di}}</td>
+        <td>{{this.Bra_Con_Es}}</td>
+        <td>{{this.Bra_Rx_Di}}</td>
+        <td>{{this.Bra_Rx_Es}}</td>
+        <td>{{this.Cx_Di}}</td>
+        <td>{{this.Cx_Es}}</td>
+        <td>{{this.Pt_Di}}</td>
+        <td>{{this.Pt_Es}}</td>
+        <td>{{this.Peitoral}}</td>
+        <td>{{this.Abdomen}}</td>
+        <td>{{this.Gluteo}}</td>
+        <td>{{this.Quadril}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
