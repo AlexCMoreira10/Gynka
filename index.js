@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import { engine } from 'express-handlebars'; 
 import Handlebars from 'handlebars';
 import moment from 'moment';
+import Sequelize from 'sequelize'; 
 
 //AQUI ESTOU CONFIGURANDO A SECAO DE USUARIO
 import session from 'express-session';
@@ -18,7 +19,7 @@ import Usuario from './models/database/Usuario.js';
 import Especialista from './models/database/Especialista.js';
 import Habitos from  './models/database/Habitos.js';
 import Medida_Corpo from './models/database/Medidas_Corpo.js';
-
+import Agendamento from './models/database/Agendamento.js';
 
 
 const PORTA = process.env.PORT || 8081; //Apenas uma configuração auxiliar a subir as aplicações, aqui o site sobe na porta e caso a informação não vier automaticamente para outra porta
@@ -205,7 +206,7 @@ app.use(bodyParser.json());
 
 //<<<<<<< HEAD
     //Comparar Evolução
-    app.get('/dados-corporais', autenticarUsuario, async (req, res) => {
+    app.get('/dados-corporais', autenticarUsuario, async function(req, res)  {
             const idUsuario = req.session.usuario.id;
             Medida_Corpo.findAll({ 
                 raw: true, where: { ID_Usuario: req.session.usuario.id }, 
@@ -330,6 +331,94 @@ app.post('/CadastrarEspecialista', async (req, res) => {
     } catch (error) {
         console.error("Erro ao cadastrar especialista:", error);
         res.status(500).send("Erro no servidor.");
+    }
+});
+
+//BUSCA PROFISSIONAL E AGENDAMENTO.
+    app.get('/BuscaDeProfissionais', autenticarUsuario ,function(req,res) {
+        const idUsuario = req.session.usuario.id
+        console.log(idUsuario)
+        res.render('BuscaDeProfissionais');
+    });
+
+    app.get('/BuscarProfissionais', async (req, res) => {
+        const { profissao } = req.query;
+        try {
+            let especialistas = [];
+            if (profissao) {
+                especialistas = await Especialista.findAll({
+                    raw: true,
+                    where: { Especialidade: profissao },
+                    order: [['Nome', 'ASC']]
+                });
+            }
+            res.render('BuscaDeProfissionais', {
+                especialistas,
+                profissaoSelecionada: profissao
+            });
+        } catch (erro) {
+            console.error('Erro ao buscar profissionais:', erro);
+            res.status(500).send('Erro ao buscar profissionais');
+        }
+    });
+
+    app.get('/agendar/:id', autenticarUsuario ,async (req, res) => {
+        const idEspecialista = req.params.id;
+        const idUsuario = req.session.usuario.id;
+
+        try {
+            const especialista = await Especialista.findByPk(idEspecialista, { raw: true });
+
+            if (!especialista) {
+                return res.status(404).send('Especialista não encontrado.');
+            }
+
+            res.render('Agendamento', { especialista });
+        } catch (erro) {
+            console.error('Erro ao carregar agendamento:', erro);
+            res.status(500).send('Erro interno no servidor.');
+        }
+    });
+    
+   app.post('/agendar', autenticarUsuario, async function (req, res) {
+    const { ID_ESPECIALISTA, DATA } = req.body;
+    const ID_USUARIO = req.session.usuario.id;
+
+    console.log("--------------- ", ID_USUARIO ," -------------------");
+    console.log("--------------- ", ID_ESPECIALISTA ," -------------------");
+    console.log("--------------- ", DATA ," -------------------");
+
+    if (!ID_ESPECIALISTA || !DATA || !ID_USUARIO) {
+        return res.status(400).send("Dados insuficientes para agendamento.");
+    }
+
+    try {
+        // Verificar se já existe agendamento do usuário ou especialista na mesma data/hora
+        const agendamentoExistente = await Agendamento.findOne({
+            where: {
+                DATA,
+                [Sequelize.Op.or]: [
+                    { ID_ESPECIALISTA },
+                    { ID_USUARIO }
+                ]
+            }
+        });
+
+        if (agendamentoExistente) {
+            return res.status(409).send("Já existe um agendamento neste horário.");
+        }
+
+        // Criar novo agendamento
+        await Agendamento.create({
+            ID_ESPECIALISTA,
+            ID_USUARIO,
+            DATA
+        });
+
+        return res.redirect('/home'); // ou renderize uma view de confirmação
+    } catch (erro) {
+        console.error("Erro ao criar agendamento:", erro);
+        return res.status(500).send("Erro interno ao tentar agendar.");
     }
 });
 
