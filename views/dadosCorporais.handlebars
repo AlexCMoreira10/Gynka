@@ -1,3 +1,81 @@
+<label for="medidaSelect">Escolha a Medida Corporal:</label>
+<select id="medidaSelect">
+  <option value="Bra_Con_Di">Braço Contraído Direito</option>
+  <option value="Bra_Con_Es">Braço Contraído Esquerdo</option>
+  <option value="Bra_Rx_Di">Braço Relaxado Direito</option>
+  <option value="Bra_Rx_Es">Braço Relaxado Esquerdo</option>
+  <option value="Cx_Di">Coxa Direita</option>
+  <option value="Cx_Es">Coxa Esquerda</option>
+  <option value="Pt_Di">Panturrilha Direita</option>
+  <option value="Pt_Es">Panturrilha Esquerda</option>
+  <option value="Peitoral">Peitoral</option>
+  <option value="Abdomen">Abdômen</option>
+  <option value="Gluteo">Glúteo</option>
+  <option value="Quadril">Quadril</option>
+</select>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+<script>
+ const dados = {
+    Bra_Con_Di: [{{#each dados}}{{this.Bra_Con_Di}},{{/each}}],
+    Bra_Con_Es: [{{#each dados}}{{this.Bra_Con_Es}},{{/each}}],
+    Bra_Rx_Di: [{{#each dados}}{{this.Bra_Rx_Di}},{{/each}}],
+    Bra_Rx_Es: [{{#each dados}}{{this.Bra_Rx_Es}},{{/each}}],
+    Cx_Di:      [{{#each dados}}{{this.Cx_Di}},{{/each}}],
+    Cx_Es:      [{{#each dados}}{{this.Cx_Es}},{{/each}}],
+    Pt_Di:      [{{#each dados}}{{this.Pt_Di}},{{/each}}],
+    Pt_Es:      [{{#each dados}}{{this.Pt_Es}},{{/each}}],
+    Peitoral:   [{{#each dados}}{{this.Peitoral}},{{/each}}],
+    Abdomen:    [{{#each dados}}{{this.Abdomen}},{{/each}}],
+    Gluteo:     [{{#each dados}}{{this.Gluteo}},{{/each}}],
+    Quadril:    [{{#each dados}}{{this.Quadril}},{{/each}}],
+  };
+
+  const xLabels = [
+    {{#each dados}}"Medição {{@index}}",{{/each}}
+  ];
+const xValues = ["Mes 1", "Mes 2", "Mes 3", "mes 4", "mes 5"];
+  const barColors = ["#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231"];
+
+  const ctx = document.getElementById("myChart").getContext("2d");
+  let chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: xLabels,
+      datasets: [{
+        backgroundColor: barColors,
+        data: dados["Bra_Con_Di"]
+      }]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: "Evolução Corporal"
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+
+  // Atualiza gráfico quando o usuário escolhe uma nova medida
+  document.getElementById("medidaSelect").addEventListener("change", function () {
+    const medidaSelecionada = this.value;
+    chart.data.datasets[0].data = dados[medidaSelecionada];
+    chart.options.title.text = `Evolução de ${this.options[this.selectedIndex].text}`;
+    chart.update();
+  });
+</script>
+
+<hr>
+
 <h2>Histórico de Evolução Corporal</h2>
 
 <table border="1" cellpadding="8" cellspacing="0">

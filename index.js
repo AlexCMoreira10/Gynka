@@ -3,6 +3,7 @@ import path from 'path';    //DEFINI OS CAMINHOS DAS PASTA DE FORMA 'DINAMICA'
 import bodyParser from 'body-parser';
 import { engine } from 'express-handlebars'; 
 import Handlebars from 'handlebars';
+import moment from 'moment';
 
 //AQUI ESTOU CONFIGURANDO A SECAO DE USUARIO
 import session from 'express-session';
@@ -202,18 +203,18 @@ app.use(bodyParser.json());
         res.render('FormularioMedidasCorpo')
     })
 
-<<<<<<< HEAD
-    //Coparar Evolução
+//<<<<<<< HEAD
+    //Comparar Evolução
     app.get('/dados-corporais', autenticarUsuario, async (req, res) => {
-        const idUsuario = req.session.usuario.id;
-        Medida_Corpo.findAll({ 
-            raw: true, where: { ID_Usuario: req.session.usuario.id }, 
-            order: [['ID_DadosCorporais', 'DESC']] }).then(function (dados) {
-                res.render('dadosCorporais', { dados: dados });
-         }).catch(function (erro) {
-                res.send("Erro ao carregar dados corporais: " + erro);
-            });
-    });
+            const idUsuario = req.session.usuario.id;
+            Medida_Corpo.findAll({ 
+                raw: true, where: { ID_Usuario: req.session.usuario.id }, 
+                order: [['ID_DadosCorporais', 'DESC']] }).then(function (dados) {
+                    res.render('dadosCorporais', { dados: dados });
+            }).catch(function (erro) {
+                    res.send("Erro ao carregar dados corporais: " + erro);
+                });
+        });
 
     app.post('/CadastrarDadosCorporais', autenticarUsuario, async function (req, res) {
         const idUsuario = req.session.usuario.id;
@@ -242,6 +243,9 @@ app.use(bodyParser.json());
         }
     });
 
+    app.get("/home_especialista", autenticarUsuario, function(req, res) {
+        res.render('especialista_home');
+    });
     app.post('/Registrar_Habito', autenticarUsuario , async function(req,res){
         const { sono, preferencia, periodo } = req.body;
         const idUsuario = req.session.usuario.id;
