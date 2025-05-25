@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gynka Dashboard</title>
+  <!-- Bootstrap 5 CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Font Awesome para ícones -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      padding-bottom: 70px; /* espaço para nav inferior */
+    }
+    .day-tabs .nav-link {
+      color: #666;
+      font-weight: 500;
+    }
+    .day-tabs .nav-link.active {
+      color: #000;
+      border-bottom: 2px solid #000;
+    }
+    .card-stat {
+      border-radius: 0.75rem;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid #ddd;
+      height: 60px;
+    }
+    .bottom-nav .nav-link {
+      font-size: 1.2rem;
+      color: #888;
+    }
+    .bottom-nav .nav-link.active {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-3">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <button class="btn btn-link p-0">
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+      <h5 class="m-0">Gynka</h5>
+      <img src="https://via.placeholder.com/32" class="rounded-circle" alt="Perfil" />
+    </div>
+
+    <!-- Tabs de dias da semana -->
+    <ul class="nav nav-pills day-tabs justify-content-between mb-4">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Segunda</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Terça</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Quarta</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Quinta</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Sexta</a>
+      </li>
+    </ul>
+
+    <!-- Estatísticas resumidas -->
+    <div class="row g-3 mb-4">
+      <div class="col-6">
+        <div class="card card-stat p-3 text-center">
+          <div class="text-muted small">Frequência</div>
+          <h6 class="mb-1">Dia 21</h6>
+          <div class="text-success small">+20% month over month</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card card-stat p-3 text-center">
+          <div class="text-muted small">Evolução</div>
+          <h6 class="mb-1">3,05</h6>
+          <div class="text-success small">+33% month over month</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <canvas id="lineChart" height="200"></canvas>
+      </div>
+    </div>
+
+    <!-- Lista de usuários -->
+    <ul class="list-group mb-5">
+      <li class="list-group-item d-flex align-items-center">
+        <img src="https://via.placeholder.com/40" class="rounded-circle me-3" alt="Elynn Lee" />
+        <div>
+          <div class="fw-bold">Elynn Lee</div>
+          <small class="text-muted">email@kedomain.net</small>
+        </div>
+      </li>
+      <li class="list-group-item d-flex align-items-center">
+        <img src="https://via.placeholder.com/40" class="rounded-circle me-3" alt="Oscar Dum" />
+        <div>
+          <div class="fw-bold">Oscar Dum</div>
+          <small class="text-muted">email@kedomain.net</small>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+
+  <!-- Navegação inferior fixa -->
+  <nav class="bottom-nav d-flex justify-content-around align-items-center">
+    <a href="#" class="nav-link text-center active">
+      <i class="fas fa-home"></i><br /><small>Home</small>
+    </a>
+    <a href="#" class="nav-link text-center">
+      <i class="fas fa-search"></i><br /><small>Search</small>
+    </a>
+    <a href="#" class="nav-link text-center">
+      <i class="fas fa-plus-circle"></i><br /><small>New</small>
+    </a>
+    <a href="#" class="nav-link text-center">
+      <i class="fas fa-bell"></i><br /><small>Alerts</small>
+    </a>
+    <a href="#" class="nav-link text-center">
+      <i class="fas fa-user"></i><br /><small>Profile</small>
+    </a>
+  </nav>
+
+  <!-- Bootstrap JS + Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  <script>
+    // Exemplo de dados para o gráfico
+    const ctx = document.getElementById('lineChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Nov 23', '24', '25', '26', '27', '28', '29', '30'],
+        datasets: [{
+          label: 'Title',
+          data: [30000, 35000, 38000, 40000, 43000, 46000, 49000, 55000],
+          tension: 0.4,
+          borderColor: '#007bff',
+          borderWidth: 2,
+          pointRadius: 0
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            grid: { display: false }
+          },
+          y: {
+            beginAtZero: false,
+            grid: { color: '#eee' }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => `\$${ctx.formattedValue}` } }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

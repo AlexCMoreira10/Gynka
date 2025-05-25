@@ -7,9 +7,10 @@
     "express-handlebars": "^8.0.2",
     "express-session": "^1.18.1",
     "mysql2": "^3.14.1",
+    "nvm": "^0.0.4",
     "sequelize": "^6.37.7"
   },
   "scripts": {
-    "start": "node index"
+    "start": "node index.js"
   }
 }

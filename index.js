@@ -202,6 +202,7 @@ app.use(bodyParser.json());
         res.render('FormularioMedidasCorpo')
     })
 
+<<<<<<< HEAD
     //Coparar Evolução
     app.get('/dados-corporais', autenticarUsuario, async (req, res) => {
         const idUsuario = req.session.usuario.id;
