@@ -126,6 +126,10 @@ app.use(bodyParser.json());
     })
 
 //ROTAS DE CADASTROS
+
+    app.get("/Cadastro",(req,res) => {
+        res.render("Cadastro")
+    });
     app.post('/Cadastrar', async function(req,res){
     try {
         const novoUsuario = await Usuario.create({
@@ -210,7 +214,7 @@ app.use(bodyParser.json());
             const idUsuario = req.session.usuario.id;
             Medida_Corpo.findAll({ 
                 raw: true, where: { ID_Usuario: req.session.usuario.id }, 
-                order: [['ID_DadosCorporais', 'DESC']] }).then(function (dados) {
+                order: [['ID_DadosCorporais', 'ASC']] }).then(function (dados) {
                     res.render('dadosCorporais', { dados: dados });
             }).catch(function (erro) {
                     res.send("Erro ao carregar dados corporais: " + erro);
