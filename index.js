@@ -34,6 +34,7 @@ app.use(bodyParser.json());
 //Handlebars configuracao
     app.engine('handlebars', engine({
         defaultLayout: 'main',
+        partialsDir: path.resolve('views/partials'),
         helpers: { eq: (a, b) => a === b }
     }));
     app.set('view engine', 'handlebars');
@@ -126,7 +127,6 @@ app.use(bodyParser.json());
     })
 
 //ROTAS DE CADASTROS
-
     app.get("/Cadastro",(req,res) => {
         res.render("Cadastro")
     });
@@ -164,7 +164,7 @@ app.use(bodyParser.json());
                 return res.status(404).send('Usuário não encontrado.');
             }
 
-            res.render('Home', { usuario: usuario.toJSON() });
+            res.render('Home', { usuario: usuario.toJSON(), exibirMenu: true});
 
         } catch (error) {
             console.error('Erro ao carregar usuário:', error);
@@ -205,7 +205,7 @@ app.use(bodyParser.json());
     });
     //REGISTRAR MEDIDAS DO CORPO
     app.get('/RegistrarMedidas', function (req, res) {
-        res.render('FormularioMedidasCorpo')
+        res.render('FormularioMedidasCorpo', {exibirMenu: true})
     })
 
 //<<<<<<< HEAD
@@ -215,7 +215,7 @@ app.use(bodyParser.json());
             Medida_Corpo.findAll({ 
                 raw: true, where: { ID_Usuario: req.session.usuario.id }, 
                 order: [['ID_DadosCorporais', 'ASC']] }).then(function (dados) {
-                    res.render('dadosCorporais', { dados: dados });
+                    res.render('dadosCorporais', {exibirMenu:true, dados: dados });
             }).catch(function (erro) {
                     res.send("Erro ao carregar dados corporais: " + erro);
                 });
@@ -342,7 +342,7 @@ app.post('/CadastrarEspecialista', async (req, res) => {
     app.get('/BuscaDeProfissionais', autenticarUsuario ,function(req,res) {
         const idUsuario = req.session.usuario.id
         console.log(idUsuario)
-        res.render('BuscaDeProfissionais');
+        res.render('BuscaDeProfissionais' , {exibirMenu: true} );
     });
 
     app.get('/BuscarProfissionais', async (req, res) => {
@@ -357,6 +357,7 @@ app.post('/CadastrarEspecialista', async (req, res) => {
                 });
             }
             res.render('BuscaDeProfissionais', {
+                exibirMenu: true,
                 especialistas,
                 profissaoSelecionada: profissao
             });
