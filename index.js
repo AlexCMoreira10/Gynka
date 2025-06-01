@@ -37,6 +37,7 @@ app.use(bodyParser.json());
         helpers: { eq: (a, b) => a === b }
     }));
     app.set('view engine', 'handlebars');
+    app.use(express.static(path.join(__dirname, 'public')));
     app.use("/img", express.static(path.join(__dirname, "/public/img")));
 
 
