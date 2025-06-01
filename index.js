@@ -72,6 +72,7 @@ app.use(bodyParser.json());
 
     app.post('/LoginEspecialista', async function(req,res){
         const {email, senha} = req.body;
+        showNavbar: true
         console.log(senha)
         console.log(email)
         try {
@@ -164,7 +165,7 @@ app.use(bodyParser.json());
                 return res.status(404).send('Usuário não encontrado.');
             }
 
-            res.render('Home', { usuario: usuario.toJSON() });
+            res.render('Home', { usuario: usuario.toJSON(), showNavbar: true });
 
         } catch (error) {
             console.error('Erro ao carregar usuário:', error);
@@ -196,7 +197,7 @@ app.use(bodyParser.json());
 
             // Só renderiza uma vez com os dados
             res.render('Habitos_Formulario', {
-                habitos: habitos ? habitos.toJSON() : {}
+                habitos: habitos ? habitos.toJSON() : {}, showNavbar: true
             });
         } catch (error) {
             // Em caso de erro, também retorna só uma resposta
@@ -205,17 +206,18 @@ app.use(bodyParser.json());
     });
     //REGISTRAR MEDIDAS DO CORPO
     app.get('/RegistrarMedidas', function (req, res) {
-        res.render('FormularioMedidasCorpo')
+        res.render('FormularioMedidasCorpo',{ showNavbar: true})
     })
 
 //<<<<<<< HEAD
     //Comparar Evolução
     app.get('/dados-corporais', autenticarUsuario, async function(req, res)  {
             const idUsuario = req.session.usuario.id;
+           
             Medida_Corpo.findAll({ 
                 raw: true, where: { ID_Usuario: req.session.usuario.id }, 
                 order: [['ID_DadosCorporais', 'ASC']] }).then(function (dados) {
-                    res.render('dadosCorporais', { dados: dados });
+                    res.render('dadosCorporais', { dados: dados, showNavbar: true });
             }).catch(function (erro) {
                     res.send("Erro ao carregar dados corporais: " + erro);
                 });
