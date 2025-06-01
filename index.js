@@ -37,6 +37,7 @@ app.use(bodyParser.json());
         helpers: { eq: (a, b) => a === b }
     }));
     app.set('view engine', 'handlebars');
+    app.use("/img", express.static(path.join(__dirname, "/public/img")));
 
 
 //CONFIGURACAO DE SESSAO
@@ -67,12 +68,11 @@ app.use(bodyParser.json());
 //Rotas de Login
     app.get('/Especialista', function(req, res){
         //res.sendFile(__dirname + '/html/Home.html');
-        res.render('LoginEspecialista')
+        res.render('LoginEspecialista',{ showNavbar: false})
     });
 
     app.post('/LoginEspecialista', async function(req,res){
         const {email, senha} = req.body;
-        showNavbar: true
         console.log(senha)
         console.log(email)
         try {
