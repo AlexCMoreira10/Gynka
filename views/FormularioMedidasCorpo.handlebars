@@ -1,5 +1,78 @@
 <h2>Cadastro de Dados Corporais</h2>
 
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f7f9fc;
+  color: #333;
+  padding: 40px;
+}
+
+/* Container do formulário */
+form {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #f55e0b; 
+}
+
+/* Estilo dos grupos de entrada */
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus {
+  border-color: #f55e0b; 
+  outline: none;
+}
+
+/* Botão */
+button {
+  margin-top: 25px;
+  width: 100%;
+  padding: 12px;
+  background-color: #f55e0b; 
+  color: #333;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #f55e0b; 
+}
+
+</style>
+
 <form action="/CadastrarDadosCorporais" method="POST">
   <label for="Bra_Con_Di">Braço Direito Contraído:</label>
   <input type="number" step="0.01" min="0" name="Bra_Con_Di" id="Bra_Con_Di" placeholder="Ex: 35.5">

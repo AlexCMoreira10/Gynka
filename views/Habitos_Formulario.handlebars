@@ -1,3 +1,90 @@
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+  }
+
+  form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+    margin: 40px auto; /* Centraliza horizontalmente e afasta do topo */
+  }
+
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 26px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #34495e;
+    margin-top: 20px;
+  }
+
+  input[type="number"],
+  input[type="text"],
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    background-color: #fff;
+    transition: border-color 0.2s;
+    margin-bottom: 10px;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 4px rgba(52, 152, 219, 0.2);
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    margin-top: 30px;
+    padding: 14px;
+    background-color: #f55e0b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #e64e00;
+  }
+
+  @media (max-width: 600px) {
+    form {
+      padding: 20px;
+    }
+
+    h2 {
+      font-size: 22px;
+    }
+  }
+</style>
+
+
 <form action="/Registrar_Habito" method="POST">
     <h2>Hábitos do Usuário</h2>
 
