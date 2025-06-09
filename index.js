@@ -72,11 +72,12 @@ app.use(bodyParser.json());
         //res.sendFile(__dirname + '/html/Home.html');
         res.render('LoginEspecialista')
     });
+    app.get("/Especialista_home",function(req,res){
+        res.render('especialista_home')
+    });
 
     app.post('/LoginEspecialista', async function(req,res){
         const {email, senha} = req.body;
-        console.log(senha)
-        console.log(email)
         try {
             const usuario = await Especialista.findOne({
                 where: {
@@ -94,9 +95,7 @@ app.use(bodyParser.json());
                 email: usuario.email,
                 nome: usuario.nome  // se você tiver esse campo
             };
-
-            console.log("TESTE ..... ")
-            //res.redirect('Home'); // corecao efetuada aqui
+            res.redirect('especialista_home'); // corecao efetuada aqui
         } catch(error) {
             res.status(500).send('Erro de comunicaçao com servidor' + error);
         }
@@ -422,7 +421,7 @@ app.post('/CadastrarEspecialista', async (req, res) => {
             DATA
         });
 
-        return res.redirect('/home'); // ou renderize uma view de confirmação
+        return res.redirect('/home',{exibirMenu: true}); // ou renderize uma view de confirmação
     } catch (erro) {
         console.error("Erro ao criar agendamento:", erro);
         return res.status(500).send("Erro interno ao tentar agendar.");
