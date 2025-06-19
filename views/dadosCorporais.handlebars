@@ -1,0 +1,224 @@
+<label for="medidaSelect">Escolha a Medida Corporal:</label>
+<select id="medidaSelect">
+  <option value="Bra_Con_Di">Braço Contraído Direito</option>
+  <option value="Bra_Con_Es">Braço Contraído Esquerdo</option>
+  <option value="Bra_Rx_Di">Braço Relaxado Direito</option>
+  <option value="Bra_Rx_Es">Braço Relaxado Esquerdo</option>
+  <option value="Cx_Di">Coxa Direita</option>
+  <option value="Cx_Es">Coxa Esquerda</option>
+  <option value="Pt_Di">Panturrilha Direita</option>
+  <option value="Pt_Es">Panturrilha Esquerda</option>
+  <option value="Peitoral">Peitoral</option>
+  <option value="Abdomen">Abdômen</option>
+  <option value="Gluteo">Glúteo</option>
+  <option value="Quadril">Quadril</option>
+</select>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+<script>
+ const dados = {
+    Bra_Con_Di: [{{#each dados}}{{this.Bra_Con_Di}},{{/each}}],
+    Bra_Con_Es: [{{#each dados}}{{this.Bra_Con_Es}},{{/each}}],
+    Bra_Rx_Di: [{{#each dados}}{{this.Bra_Rx_Di}},{{/each}}],
+    Bra_Rx_Es: [{{#each dados}}{{this.Bra_Rx_Es}},{{/each}}],
+    Cx_Di:      [{{#each dados}}{{this.Cx_Di}},{{/each}}],
+    Cx_Es:      [{{#each dados}}{{this.Cx_Es}},{{/each}}],
+    Pt_Di:      [{{#each dados}}{{this.Pt_Di}},{{/each}}],
+    Pt_Es:      [{{#each dados}}{{this.Pt_Es}},{{/each}}],
+    Peitoral:   [{{#each dados}}{{this.Peitoral}},{{/each}}],
+    Abdomen:    [{{#each dados}}{{this.Abdomen}},{{/each}}],
+    Gluteo:     [{{#each dados}}{{this.Gluteo}},{{/each}}],
+    Quadril:    [{{#each dados}}{{this.Quadril}},{{/each}}],
+  };
+
+  const xLabels = [
+    {{#each dados}}"Medição {{@index}}",{{/each}}
+  ];
+const xValues = ["Mes 1", "Mes 2", "Mes 3", "mes 4", "mes 5"];
+  const barColors = ["#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231"];
+
+  const ctx = document.getElementById("myChart").getContext("2d");
+  let chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: xLabels,
+      datasets: [{
+        backgroundColor: barColors,
+        data: dados["Bra_Con_Di"]
+      }]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: "Evolução Corporal"
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+
+  // Atualiza gráfico quando o usuário escolhe uma nova medida
+  document.getElementById("medidaSelect").addEventListener("change", function () {
+    const medidaSelecionada = this.value;
+    chart.data.datasets[0].data = dados[medidaSelecionada];
+    chart.options.title.text = `Evolução de ${this.options[this.selectedIndex].text}`;
+    chart.update();
+  });
+</script>
+
+<style>
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  margin: 20px;
+  color: #333;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+select {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+canvas {
+  display: block;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-top: 40px;
+  color: #222;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table thead {
+  background-color: #f55e0b;
+  color: #fff;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #ccc;
+  margin: 40px 0;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+  }
+
+  tbody td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+
+</style>
+
+<hr>
+
+<h2>Histórico de Evolução Corporal</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Braço Contraído D</th>
+      <th>Braço Contraído E</th>
+      <th>Braço Relaxado D</th>
+      <th>Braço Relaxado E</th>
+      <th>Coxa D</th>
+      <th>Coxa E</th>
+      <th>Panturrilha D</th>
+      <th>Panturrilha E</th>
+      <th>Peitoral</th>
+      <th>Abdômen</th>
+      <th>Glúteo</th>
+      <th>Quadril</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each dados}}
+      <tr>
+        <td>{{this.createdAt}}</td>
+        <td>{{this.Bra_Con_Di}}</td>
+        <td>{{this.Bra_Con_Es}}</td>
+        <td>{{this.Bra_Rx_Di}}</td>
+        <td>{{this.Bra_Rx_Es}}</td>
+        <td>{{this.Cx_Di}}</td>
+        <td>{{this.Cx_Es}}</td>
+        <td>{{this.Pt_Di}}</td>
+        <td>{{this.Pt_Es}}</td>
+        <td>{{this.Peitoral}}</td>
+        <td>{{this.Abdomen}}</td>
+        <td>{{this.Gluteo}}</td>
+        <td>{{this.Quadril}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

@@ -73,46 +73,8 @@
   }
   </style>
  </head>
-<body>
+<body>''
  <div class="container mt-3">
-
-  <!-- Perfil do Usuário -->
-  <div class="d-flex align-items-center justify-content-between mb-3 p-3 bg-white rounded shadow-sm">
-    <div class="d-flex align-items-center">
-      <img src="https://www.otempo.com.br/content/dam/otempo/editorias/entretenimento/filmes-e-series/2024/1/entretenimento-todo-mundo-se-apaixonou-por-esses-personagens-de-anime-em-2023-1713498773.jpeg" alt="Foto do usuário" class="rounded-circle me-3" width="48" height="48">
-      <div>
-        <h6 class="mb-0">{{usuario.Nome}}</h6>
-        <small class="text-muted">Aluno ativo</small>
-      </div>
-    </div>
-    <div>
-      <button class="btn btn-outline-secondary btn-sm">
-        <i class="bi bi-gear"></i> Configurações
-      </button>
-    </div>
-    <div>
-      <form action="/Formulario" method="get">
-        <button class="btn btn-outline-secondary btn-sm">
-          <i class="bi bi-gear"> Evolucao</i>
-        </button>
-      </form>
-    </div>
-    <div>
-      <form action="/Habitos_Formulario" method="get">
-        <button class="btn btn-outline-secondary btn-sm">
-          <i class="bi bi-gear"> Habito formulario</i>
-        </button>
-      </form>
-    </div>
-    <div>
-      <form action="/Logout" method="get">
-        <button class="btn btn-outline-secondary btn-sm">
-          <i class="bi bi-gear"> Logaout</i>
-        </button>
-      </form>
-    </div>     
-  </div>
-
     <!-- Navegação de Dias -->
     <div class="nav-days mb-3">
       <span>Segunda</span>
@@ -133,8 +95,8 @@
         <p class="mb-1">4 séries de 12 repetições</p>
         <p class="text-muted small">Mantenha os cotovelos próximos ao corpo e controle o movimento.</p>
         <div class="d-flex justify-content-between">
-          <button class="btn btn-outline-secondary btn-sm rounded-circle"><</button>
-          <button class="btn btn-outline-secondary btn-sm rounded-circle">></button>
+          <button class="btn btn-outline-secondary btn-sm rounded-circle"> 	&lt; </button>
+          <button class="btn btn-outline-secondary btn-sm rounded-circle"> 	&gt; </button>
         </div>
       </div>
     </div>
@@ -211,11 +173,18 @@
 
     <!-- Botão de Agendamento -->
     <div class="text-center mt-4 mb-4">
-      <button class="btn btn-dark btn-custom">
-        <i class="bi bi-calendar-event"></i> Solicite horário
-      </button>
+      <a href="#">
+        <button class="btn btn-dark btn-custom">
+          <i class="bi bi-calendar-event"></i> Meus Agendamentos
+        </button>
+      </a>
+      <a href="/BuscaDeProfissionais">
+        <button class="btn btn-dark btn-custom">
+        <i class="bi bi-calendar-event"></i> Buscar profissionais
+      </button></a>
     </div>
   </div>
+  
 
   <!-- Barra de navegação inferior (visível em telas pequenas) -->
 <nav class="navbar fixed-bottom d-md-none bg-white border-top shadow-sm">

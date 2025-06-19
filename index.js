@@ -3,6 +3,8 @@ import path from 'path';    //DEFINI OS CAMINHOS DAS PASTA DE FORMA 'DINAMICA'
 import bodyParser from 'body-parser';
 import { engine } from 'express-handlebars'; 
 import Handlebars from 'handlebars';
+import moment from 'moment';
+import Sequelize from 'sequelize'; 
 
 //AQUI ESTOU CONFIGURANDO A SECAO DE USUARIO
 import session from 'express-session';
@@ -14,9 +16,10 @@ import bcrypt from 'bcrypt';
 
 //imports do banco de dados para uso
 import Usuario from './models/database/Usuario.js';
-import Habitos from  './models/database/Habitos.js';
-import MedidaCorpo from './models/database/Medidas_Corpo.js';
 import Especialista from './models/database/Especialista.js';
+import Habitos from  './models/database/Habitos.js';
+import Medida_Corpo from './models/database/Medidas_Corpo.js';
+import Agendamento from './models/database/Agendamento.js';
 
 
 const PORTA = process.env.PORT || 8081; //Apenas uma configuração auxiliar a subir as aplicações, aqui o site sobe na porta e caso a informação não vier automaticamente para outra porta
@@ -31,9 +34,12 @@ app.use(bodyParser.json());
 //Handlebars configuracao
     app.engine('handlebars', engine({
         defaultLayout: 'main',
+        partialsDir: path.resolve('views/partials'),
         helpers: { eq: (a, b) => a === b }
     }));
     app.set('view engine', 'handlebars');
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use("/img", express.static(path.join(__dirname, "/public/img")));
 
 
 //CONFIGURACAO DE SESSAO
@@ -61,33 +67,40 @@ app.use(bodyParser.json());
         res.render('Login')
     });
 
-    app.get('/cadastro', function(req,res){
-        res.render('Cadastro')
-    })
-
-    app.post('/Cadastrar', async function(req,res){
-    try {
-        const novoUsuario = await Usuario.create({
-        Nome: req.body.nome,
-        SobreNome: req.body.sobrenome,
-        email: req.body.email,
-        telefone: req.body.telefone,
-        Estado: req.body.estado,
-        Cidade: req.body.cidade,
-        Cep: req.body.cep,
-        Lagradouro: req.body.lagradouro,
-        N_casa: req.body.n_casa,
-        Complemento: req.body.complemento,
-        senha: req.body.senha
-        });
-        res.status(201).json({ message: 'Usuário cadastrado com sucesso!', usuario: novoUsuario });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Erro ao cadastrar usuário.' });
-    }
+//Rotas de Login
+    app.get('/Especialista', function(req, res){
+        //res.sendFile(__dirname + '/html/Home.html');
+        res.render('LoginEspecialista')
+    });
+    app.get("/Especialista_home",function(req,res){
+        res.render('especialista_home')
     });
 
-//LOGICA DE LOGIN
+    app.post('/LoginEspecialista', async function(req,res){
+        const {email, senha} = req.body;
+        try {
+            const usuario = await Especialista.findOne({
+                where: {
+                    Email: email,
+                    senha: senha
+                }
+            });
+            console.log('-----------')
+            if(!usuario){
+                return  res.status(401).send('Email ou senha incorretos');
+            }
+
+            req.session.usuario = {
+                id: usuario.ID_ESPECIALISTA,
+                email: usuario.email,
+                nome: usuario.nome  // se você tiver esse campo
+            };
+            res.redirect('especialista_home'); // corecao efetuada aqui
+        } catch(error) {
+            res.status(500).send('Erro de comunicaçao com servidor' + error);
+        }
+    })
+
     app.post('/Logar', async function(req,res) {
         const {email, senha} = req.body;
         try {
@@ -114,6 +127,33 @@ app.use(bodyParser.json());
         }
     })
 
+//ROTAS DE CADASTROS
+    app.get("/Cadastro",(req,res) => {
+        res.render("Cadastro")
+    });
+    app.post('/Cadastrar', async function(req,res){
+    try {
+        const novoUsuario = await Usuario.create({
+        Nome: req.body.nome,
+        SobreNome: req.body.sobrenome,
+        email: req.body.email,
+        telefone: req.body.telefone,
+        Estado: req.body.estado,
+        Cidade: req.body.cidade,
+        Cep: req.body.cep,
+        Lagradouro: req.body.lagradouro,
+        N_casa: req.body.n_casa,
+        Complemento: req.body.complemento,
+        senha: req.body.senha
+        });
+        res.status(201).json({ message: 'Usuário cadastrado com sucesso!', usuario: novoUsuario });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao cadastrar usuário.' });
+        }
+    });
+
+//ROTA PAGINA PRINCIPAL
     app.get('/Home', autenticarUsuario, async function(req, res) {
         const idUsuario = req.session.usuario.id;
         try {
@@ -125,7 +165,7 @@ app.use(bodyParser.json());
                 return res.status(404).send('Usuário não encontrado.');
             }
 
-            res.render('Home', { usuario: usuario.toJSON() });
+            res.render('Home', { usuario: usuario.toJSON(), exibirMenu: true});
 
         } catch (error) {
             console.error('Erro ao carregar usuário:', error);
@@ -162,6 +202,50 @@ app.use(bodyParser.json());
         } catch (error) {
             // Em caso de erro, também retorna só uma resposta
             res.status(500).send('Erro ao carregar dados de hábitos.<br>' + error);
+        }
+    });
+    //REGISTRAR MEDIDAS DO CORPO
+    app.get('/RegistrarMedidas', function (req, res) {
+        res.render('FormularioMedidasCorpo', {exibirMenu: true})
+    })
+
+//<<<<<<< HEAD
+    //Comparar Evolução
+    app.get('/dados-corporais', autenticarUsuario, async function(req, res)  {
+            const idUsuario = req.session.usuario.id;
+            Medida_Corpo.findAll({ 
+                raw: true, where: { ID_Usuario: req.session.usuario.id }, 
+                order: [['ID_DadosCorporais', 'ASC']] }).then(function (dados) {
+                    res.render('dadosCorporais', {exibirMenu:true, dados: dados });
+            }).catch(function (erro) {
+                    res.send("Erro ao carregar dados corporais: " + erro);
+                });
+        });
+
+    app.post('/CadastrarDadosCorporais', autenticarUsuario, async function (req, res) {
+        const idUsuario = req.session.usuario.id;
+        const {
+            Bra_Con_Di, Bra_Con_Es, Bra_Rx_Es, Bra_Rx_Di,
+            Cx_Es, Cx_Di, Pt_Es, Pt_Di,
+            Peitoral, Abdomen, Gluteo, Quadril
+        } = req.body;
+
+        if(!idUsuario) {
+            return res.status(401).send("Usuario não Autenticado")
+        }
+        
+        try {
+            await Medida_Corpo.create({
+                ID_Usuario: idUsuario,
+                Bra_Con_Di, Bra_Con_Es, Bra_Rx_Es, Bra_Rx_Di,
+                Cx_Es, Cx_Di, Pt_Es, Pt_Di,
+                Peitoral, Abdomen, Gluteo, Quadril
+            });
+
+            return res.redirect('Home')
+        } catch (erro) {
+            console.error("Erro ao cadastrar dados corporais:", erro);
+            res.status(500).send("Erro ao salvar os dados corporais.");
         }
     });
 
@@ -201,6 +285,7 @@ app.use(bodyParser.json());
 app.get('/CadastroEspecialista', async (req, res) => {
     res.render('Cadastro_Especialista');
 });
+
 app.post('/CadastrarEspecialista', async (req, res) => {
     const {
         nome,
@@ -230,14 +315,14 @@ app.post('/CadastrarEspecialista', async (req, res) => {
         }
 
         // Criptografa a senha
-        const senhaHash = await bcrypt.hash(senha, 10);
+        //const senhaHash = await bcrypt.hash(senha, 10);
 
         // Criação do especialista
         const novoEspecialista = await Especialista.create({
             Nome: nome,
             Sobrenome: sobrenome,
             Email: email,
-            senha: senhaHash,
+            senha: senha,
             Telefone: telefone,
             Cod_conselho_classe: cod_conselho_classe,
             Especialidade: especialidade
@@ -247,10 +332,99 @@ app.post('/CadastrarEspecialista', async (req, res) => {
             message: "Especialista cadastrado com sucesso!",
             especialista: novoEspecialista
         });
-
+        return res.redirect('/LoginEspecialista');
     } catch (error) {
         console.error("Erro ao cadastrar especialista:", error);
         res.status(500).send("Erro no servidor.");
+    }
+});
+
+//BUSCA PROFISSIONAL E AGENDAMENTO.
+    app.get('/BuscaDeProfissionais', autenticarUsuario ,function(req,res) {
+        const idUsuario = req.session.usuario.id
+        console.log(idUsuario)
+        res.render('BuscaDeProfissionais' , {exibirMenu: true} );
+    });
+
+    app.get('/BuscarProfissionais', async (req, res) => {
+        const { profissao } = req.query;
+        try {
+            let especialistas = [];
+            if (profissao) {
+                especialistas = await Especialista.findAll({
+                    raw: true,
+                    where: { Especialidade: profissao },
+                    order: [['Nome', 'ASC']]
+                });
+            }
+            res.render('BuscaDeProfissionais', {
+                exibirMenu: true,
+                especialistas,
+                profissaoSelecionada: profissao
+            });
+        } catch (erro) {
+            console.error('Erro ao buscar profissionais:', erro);
+            res.status(500).send('Erro ao buscar profissionais');
+        }
+    });
+
+    app.get('/agendar/:id', autenticarUsuario ,async (req, res) => {
+        const idEspecialista = req.params.id;
+        const idUsuario = req.session.usuario.id;
+
+        try {
+            const especialista = await Especialista.findByPk(idEspecialista, { raw: true });
+
+            if (!especialista) {
+                return res.status(404).send('Especialista não encontrado.');
+            }
+
+            res.render('Agendamento', { especialista });
+        } catch (erro) {
+            console.error('Erro ao carregar agendamento:', erro);
+            res.status(500).send('Erro interno no servidor.');
+        }
+    });
+    
+   app.post('/agendar', autenticarUsuario, async function (req, res) {
+    const { ID_ESPECIALISTA, DATA } = req.body;
+    const ID_USUARIO = req.session.usuario.id;
+
+    console.log("--------------- ", ID_USUARIO ," -------------------");
+    console.log("--------------- ", ID_ESPECIALISTA ," -------------------");
+    console.log("--------------- ", DATA ," -------------------");
+
+    if (!ID_ESPECIALISTA || !DATA || !ID_USUARIO) {
+        return res.status(400).send("Dados insuficientes para agendamento.");
+    }
+
+    try {
+        // Verificar se já existe agendamento do usuário ou especialista na mesma data/hora
+        const agendamentoExistente = await Agendamento.findOne({
+            where: {
+                DATA,
+                [Sequelize.Op.or]: [
+                    { ID_ESPECIALISTA },
+                    { ID_USUARIO }
+                ]
+            }
+        });
+
+        if (agendamentoExistente) {
+            return res.status(409).send("Já existe um agendamento neste horário.");
+        }
+
+        // Criar novo agendamento
+        await Agendamento.create({
+            ID_ESPECIALISTA,
+            ID_USUARIO,
+            DATA
+        });
+
+        return res.redirect('/home',{exibirMenu: true}); // ou renderize uma view de confirmação
+    } catch (erro) {
+        console.error("Erro ao criar agendamento:", erro);
+        return res.status(500).send("Erro interno ao tentar agendar.");
     }
 });
 

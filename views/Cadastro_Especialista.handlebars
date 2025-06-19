@@ -113,6 +113,7 @@
     }
     </style>
 </header>
+
 <form action="/CadastrarEspecialista" method="POST">
   <label for="nome">Nome:</label>
   <input type="text" id="nome" name="nome" placeholder="Nome..." required>
@@ -124,7 +125,7 @@
   <input type="email" id="email" name="email" placeholder="Email..." required>
 
   <label for="telefone">Telefone:</label>
-  <input type="tel" id="telefone" name="telefone" placeholder="Apenas números..." required pattern="[0-9]{10,11}">
+  <input type="tel" id="telefone" name="telefone" placeholder="Apenas números..." minlength="11" maxlength="11" required pattern="[0-9]{10,11}">
 
   <label for="cod_conselho_classe">Código do Conselho de Classe:</label>
   <input type="text" id="cod_conselho_classe" name="cod_conselho_classe" placeholder="Ex: CRM123456..." required>
@@ -133,7 +134,7 @@
   <input type="text" id="especialidade" name="especialidade" placeholder="Ex: Ortopedia, Psicologia..." required>
 
   <label for="senha">Senha:</label>
-  <input type="password" id="senha" name="senha" placeholder="Mínimo 4 caracteres..." required minlength="4">
+  <input type="password" id="senha" name="senha" placeholder="Mínimo 8 caracteres..." required minlength="8">
 
   <div class="termos-container">
     <input type="checkbox" id="termos" name="termos" required>

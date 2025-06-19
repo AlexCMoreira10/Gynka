@@ -1,0 +1,96 @@
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+<body>
+<h2>Histórico de Evolução Corporal</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Braço Contraído D</th>
+      <th>Braço Contraído E</th>
+      <th>Braço Relaxado D</th>
+      <th>Braço Relaxado E</th>
+      <th>Coxa D</th>
+      <th>Coxa E</th>
+      <th>Panturrilha D</th>
+      <th>Panturrilha E</th>
+      <th>Peitoral</th>
+      <th>Abdômen</th>
+      <th>Glúteo</th>
+      <th>Quadril</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each dados}}
+      <tr>
+        <td>{{this.createdAt}}</td>
+        <td>{{this.Bra_Con_Di}}</td>
+        <td>{{this.Bra_Con_Es}}</td>
+        <td>{{this.Bra_Rx_Di}}</td>
+        <td>{{this.Bra_Rx_Es}}</td>
+        <td>{{this.Cx_Di}}</td>
+        <td>{{this.Cx_Es}}</td>
+        <td>{{this.Pt_Di}}</td>
+        <td>{{this.Pt_Es}}</td>
+        <td>{{this.Peitoral}}</td>
+        <td>{{this.Abdomen}}</td>
+        <td>{{this.Gluteo}}</td>
+        <td>{{this.Quadril}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+<hr>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<!--<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+  {{#each dados}}
+    <script>
+      var num = {{this.Quadril}};
+    </script>
+  {{/each}} -->
+<script>
+    let quadrilValues = [
+      {{#each dados}}
+        {{this.Quadril}},
+      {{/each}}
+    ];
+    //let DDMMAA = [
+    //  {{#each dados}}
+    //    {{this.createdAt}},
+    //  {{/echa}}
+    //];
+
+    console.log("Quadris:", quadrilValues);
+    console.log("DATA:", DDMMAA);
+      const barColors = ["red", "green","blue","orange","brown"];
+      new Chart("myChart", {
+      type: "bar",
+      data: {
+        labels: DDMMAA,
+        datasets: [{
+          backgroundColor: barColors,
+          data: DDMMAA
+        }]
+      },
+      options: {
+        legend: {display: false},
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+
+        title: {
+          display: true,
+          text: "Evolução"
+        }
+      }
+  });
+</script>
+  
+</body>
+</html>

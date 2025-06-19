@@ -1,0 +1,40 @@
+<h2>Agendamento</h2>
+
+<form id="formAgendamento" action="/agendar" method="POST">
+  <!-- ID do especialista -->
+  <input type="hidden" name="ID_ESPECIALISTA" value="{{especialista.ID_ESPECIALISTA}}">
+
+  <!-- Campo oculto que receberá o valor combinado -->
+  <input type="hidden" id="DATA" name="DATA">
+
+  <label for="data">Data:</label>
+  <input type="date" id="data" required>
+
+  <label for="hora">Hora:</label>
+  <input type="time" id="hora" required>
+
+  <button type="submit">Agendar</button>
+</form>
+
+<!-- Importante: coloque o script no final para garantir que os elementos já existem -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('formAgendamento');
+
+    form.addEventListener('submit', function (e) {
+      const data = document.getElementById('data').value;
+      const hora = document.getElementById('hora').value;
+
+      if (!data || !hora) {
+        e.preventDefault();
+        alert("Preencha a data e a hora.");
+        return;
+      }
+
+      // Concatena no formato ISO: 2025-05-30T14:30
+      const dataHora = `${data}T${hora}`;
+
+      document.getElementById('DATA').value = dataHora;
+    });
+  });
+</script>
