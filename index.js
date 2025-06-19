@@ -166,7 +166,7 @@ app.use(bodyParser.json());
     });
 
     app.get("/home_especialista", autenticarUsuario, function(req, res) {
-        res.render('especialista_home');
+        res.render('Home_Especialista');
     });
     app.post('/Registrar_Habito', autenticarUsuario , async function(req,res){
         const { sono, preferencia, periodo } = req.body;
